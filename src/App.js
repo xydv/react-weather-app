@@ -1,12 +1,10 @@
 import './App.css';
-import Modals from './Modals';
-
+import Navbar from './components/Navbar';
 function App() {
   return (
     <>
-    <Modals />
+    <Navbar />
     </>
   );
 }
-
 export default App;
