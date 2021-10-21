@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 function Body(props) {
     const [name, setName] = useState("");
     const nameChange = (event) => {
@@ -7,6 +6,7 @@ function Body(props) {
     }
     const [data, setData] = useState(null);
     const [cityname, setCityName] = useState("");
+    const [icon, setIcon] = useState([])
     useEffect(() => {
         const fetchapi = async () => {
             const url = `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=f3ec87095dbda64c03300c0beec3e79a`;
@@ -14,8 +14,10 @@ function Body(props) {
             const resJson = await response.json();
             setData(resJson.main);
             setCityName(resJson.name);
+            setIcon(resJson.weather);
         }
         fetchapi();
+        console.clear();
     }, [name]);
     return (
         <>
@@ -28,10 +30,9 @@ function Body(props) {
                     <div className="container">
                         <div className="container mb-3 my-3 border">
                             <h1 className="text-center my-2">{cityname}</h1>
-                            <h3 className="text-center my-2">{props.unit === "°C" ? Math.round(data.temp_min - 273.15) : Math.round(((data.temp_min - 273.15)*1.8)+32)} {props.unit}</h3>
-                            <h1 className="text-center my-2">
-                                {/* <img src={`http://openweathermap.org/img/wn/${weather.id}@2x.png`} alt="..." /> */}
-                            </h1>
+                            <h3 className="text-center my-2">{props.unit === "°C" ? Math.round(data.temp_min - 273.15) : Math.round(((data.temp_min - 273.15) * 1.8) + 32)} {props.unit}</h3>
+                            <h1 className="text-center my-2">{icon === undefined ? "No Icon" : <img src={`https://openweathermap.org/img/wn/${icon[0].icon}@2x.png`} alt="..." />}</h1>
+                            <h4 className="text-center my-2">{icon === undefined ? "No Icon" : icon[0].main}</h4>
                         </div>
                     </div>
                 </>
@@ -39,5 +40,4 @@ function Body(props) {
         </>
     )
 }
-
 export default Body
